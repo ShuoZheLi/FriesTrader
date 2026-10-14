@@ -100,14 +100,16 @@ reference price, drawdown, stdev, or clamp. For each open position
   holding period's entry date (the buy that started it from zero)
   through yesterday, for `--daily-highs`.
 - If `risk_rules.json`'s `stop_loss.mode` is `"volatility_scaled"` and
-  the position is not currently showing a gain on average cost, pull
+  the current price is below the stop reference price (below average
+  cost, or below the trailing high once a take-profit tier has fired --
+  even if still at a gain on average cost), pull
   the last `stop_loss.volatility_lookback_trading_days` trading days
   of daily closes via `get_equity_historicals` (interval=day,
   split-adjusted; request ~30 calendar days back to cover
   weekends/holidays, drop any `interpolated: true` bars), oldest
-  first through yesterday, for `--daily-closes`. Skip this pull on a
-  gain — the script itself also skips the computation in that case,
-  since a non-positive drawdown can never meet a positive `stop_pct`.
+  first through yesterday, for `--daily-closes`. Skip this pull only
+  when the current price is at or above the stop reference price --
+  a non-positive drawdown can never meet a positive `stop_pct`.
 
 Run:
 `python3 scripts/stop_loss.py --average-cost <avg cost> --current-price <fresh quote> --mode <stop_loss.mode> --hard-stop-pct <stop_loss.hard_stop_pct> --volatility-multiplier <stop_loss.volatility_stdev_multiplier> --min-stop-pct <stop_loss.min_stop_pct> --max-stop-pct <stop_loss.max_stop_pct> --fallback-stop-pct <stop_loss.fallback_stop_pct> --min-bars 10 [--daily-closes <comma-separated closes>] [--take-profit-tier-fired --daily-highs <comma-separated highs> --trailing-high-since <entry date>]`

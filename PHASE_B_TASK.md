@@ -389,7 +389,8 @@ morning's open, not Phase A's prior-close price.
 
 **Gather inputs, then let the script decide — do not hand-compute any
 gap, average, or lock condition:**
-- `--fresh-ask`: this morning's fresh `ask`.
+- `--fresh-ask`: this morning's fresh `ask_price` (the quote's `bid_price`
+  is what sells log as `quote_bid`).
 - `--thesis-price`: Phase A's thesis-time `current_price`.
 - `--daily-closes`: the last `entry_extension.lookback_trading_days`
   trading days of daily closes via `get_equity_historicals`
@@ -399,7 +400,9 @@ gap, average, or lock condition:**
   (pass `--wash-sale-enabled` and `--wash-sale-lookback-days
   <wash_sale_avoidance.lookback_window_days>`; omit both otherwise):
   for every account number in `wash_sale_avoidance.linked_accounts`,
-  call `get_pnl_trade_history` filtered to this symbol and collect the
+  call `get_pnl_trade_history` filtered to this symbol with
+  `span="3month"` (its default span is one week, shorter than the
+  lookback window) and collect the
   dates of any closing trade realizing a negative gain, as
   `--loss-sale-dates <comma-separated ISO dates>` (omit if none
   found). Also pass `--today <today's date, ISO>`.

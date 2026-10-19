@@ -116,7 +116,8 @@ candidates are bought:
 - **Size** (`position_sizing.py`). In ranked order, each candidate is
   bought at its conviction-tier size (a fixed percent of the account)
   until `max_concurrent_positions` or the `min_cash_buffer_pct` floor is
-  reached.
+  reached. A new entry below `position_sizing.min_new_entry_conviction`
+  is skipped, so weak theses don't occupy a slot.
 
 Every decision is logged to `trade_log.jsonl`. Some cycles buy nothing.
 
@@ -171,6 +172,12 @@ scheduled time.)
   (`stop_loss.py`/`take_profit.py`/`conviction_trim.py` in Step 5;
   `entry_gate.py`/`pnl_pct.py`/`rank_candidates.py`/`position_sizing.py`
   in Step 7).
+  - `replay_dry_run.py` — offline only, not part of either phase: turns a
+    dry run's logged would-be buys into a paper portfolio over
+    historical daily bars, running the same stop-loss, take-profit,
+    loss-limit, slot, cash-buffer, re-entry-lock and wash-sale rules, and
+    reports paper P&L, drawdown, win rate and an optional benchmark. See
+    "Evaluating a dry run" below.
 - `PHASE_A_TASK.md` / `PHASE_B_TASK.md` — the full, self-contained spec
   each phase follows.
 - `trade_log_template.jsonl` — the log line shapes; real logs accumulate
@@ -311,6 +318,28 @@ repo itself (`risk_rules.json`, `pending_proposals.jsonl`,
   same cycle risks duplicate `risk_check`/`order` log entries, or
   duplicate real orders once `execution.mode` is `"live"`.
 
+### Evaluating a dry run
+
+A dry run holds nothing, so its log shows decisions but not results.
+Before going live, replay it as a paper portfolio:
+
+1. In a Claude Code session with the Robinhood MCP connected, pull
+   `get_equity_historicals` (`interval="day"`) for every symbol with a
+   dry-run buy in `trade_log.jsonl`, plus a benchmark such as `SPY`,
+   starting ~30 calendar days before the first dry-run buy, and save
+   each response as a JSON file (up to 10 symbols per call).
+2. Run:
+   ```
+   python3 scripts/replay_dry_run.py --trade-log trade_log.jsonl --starting-cash <cash when the dry run began> --benchmark SPY --historicals <saved files...>
+   ```
+
+It reports paper P&L, max drawdown, win rate, the benchmark's return
+over the same window, and every skipped buy with its reason. Exits are
+checked at each day's open; thesis-driven exits and conviction trims
+aren't replayed. Each run's `strategy_version` (on Phase A's `summary`
+lines and Phase B's `cycle_summary`) ties results to the rules that
+produced them, so compare strategy changes version against version.
+
 ### Routine prompt templates
 
 The task specs don't cover scheduling or dates, and only Phase B's
@@ -385,6 +414,8 @@ End with a concise summary of what you checked, approved, rejected, and (if appl
   "new_fact_date": "YYYY-MM-DD (exit_existing within early_exit_guard's window only)",
   "risk_flags": ["..."],
   "pct_below_52wk_high": 0.15,
+  "current_price": 85.00,
+  "high_52_weeks": 100.00,
   "sources": ["Outlet Name: https://...", "..."]
 }
 ```

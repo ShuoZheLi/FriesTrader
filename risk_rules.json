@@ -10,10 +10,10 @@
   },
 
   "universe": {
-    "watchlist_name": "My First List",
+    "watchlist_name": "FriesTrader",
     "watchlist_max_candidates": 25,
     "supplementary_scan_id": "ea8f6c58-05e0-4d6e-adfa-7cfe38c469ac",
-    "supplementary_scan_max_candidates": 5,
+    "supplementary_scan_max_candidates": 20,
     "supplementary_scan_note": "Robinhood scan 'FriesTrader supplementary movers', created via the Robinhood MCP's create_scan tool: asset type STOCK, market cap $2B-$50B, 30-day average volume >= 1M, last price >= $5, and relative volume (dayVolume / 30-day average volume) >= 2, sorted by relative volume descending so the top supplementary_scan_max_candidates rows are the most unusual-volume names. Relative volume is an expression filter (the enum FILTER_TYPE_RELATIVE_VOLUME ignores its 30-day length), so edit it with create_scan + this scan_id, not update_scan_filters. Additive to watchlist_max_candidates, not shared with it -- the watchlist's own slots are never crowded out by scan results.",
 
     "min_avg_daily_volume": 1000000,

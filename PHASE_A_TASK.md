@@ -17,7 +17,8 @@ Pull symbols from the Robinhood watchlist named `universe.watchlist_name`
 in `risk_rules.json` (read fresh each run — don't assume prior values or
 hardcode the name). Call `get_watchlists` to find its `list_id` by
 matching `display_name`, then `get_watchlist_items` on that `list_id` —
-ignore all other watchlists.
+ignore all other watchlists. An empty watchlist is valid, not an error:
+candidates then come only from the scan below and held positions.
 
 **Supplementary market scan** (additive, not a replacement): call
 `run_scan` with `universe.supplementary_scan_id` — a saved Robinhood

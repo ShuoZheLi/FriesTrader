@@ -377,6 +377,13 @@ Write:
 - One `"stage": "thesis"` line per flagged candidate (shape matches
   `trade_log_template.jsonl`), plus `pct_below_52wk_high` for `long`
   candidates (Step 3).
+- **Every `thesis` line, any direction, carries `current_price`**
+  (Step 1's `get_equity_quotes` `last_trade_price`) **and
+  `high_52_weeks`** (Step 1's `get_equity_fundamentals`) — this run's
+  pulled values. Phase B's buy gate uses `current_price` as the
+  thesis-time price, and later strategy reviews measure what happened
+  after each thesis from it. Every `screened` line for a candidate this
+  run quoted also carries `current_price`.
 
 Do not touch `trade_log.jsonl` — reserved for Steps 4–9 (Phase B), which
 reads `pending_proposals.jsonl` separately.
@@ -385,14 +392,17 @@ reads `pending_proposals.jsonl` separately.
 line per decision bucket** (to `pending_proposals.jsonl`) — a plain
 symbol list per bucket for at-a-glance readability. Phase B only reads
 `"stage": "thesis"` entries, so these are inert to it. Always all five
-buckets, in order, even if empty:
+buckets, in order, even if empty. Each carries `strategy_version`: the
+output of `git rev-parse --short HEAD` taken at the start of this run,
+before this run's own commit — it ties the run to the exact rules and
+spec it ran under, so later strategy changes can be compared:
 
 ```json
-{"date": "YYYY-MM-DD", "timestamp": "HH:mm:ss", "stage": "summary", "decision": "rejected", "symbols": ["AMC", "ADDYY"]}
-{"date": "YYYY-MM-DD", "timestamp": "HH:mm:ss", "stage": "summary", "decision": "no_signal", "symbols": ["TSLA", "NVDA", "..."]}
-{"date": "YYYY-MM-DD", "timestamp": "HH:mm:ss", "stage": "summary", "decision": "avoid", "symbols": ["SPCX", "LCID", "..."]}
-{"date": "YYYY-MM-DD", "timestamp": "HH:mm:ss", "stage": "summary", "decision": "long", "symbols": ["AAPL (medium)", "AMD (high)", "..."]}
-{"date": "YYYY-MM-DD", "timestamp": "HH:mm:ss", "stage": "summary", "decision": "exit_existing", "symbols": []}
+{"date": "YYYY-MM-DD", "timestamp": "HH:mm:ss", "stage": "summary", "strategy_version": "abc1234", "decision": "rejected", "symbols": ["AMC", "ADDYY"]}
+{"date": "YYYY-MM-DD", "timestamp": "HH:mm:ss", "stage": "summary", "strategy_version": "abc1234", "decision": "no_signal", "symbols": ["TSLA", "NVDA", "..."]}
+{"date": "YYYY-MM-DD", "timestamp": "HH:mm:ss", "stage": "summary", "strategy_version": "abc1234", "decision": "avoid", "symbols": ["SPCX", "LCID", "..."]}
+{"date": "YYYY-MM-DD", "timestamp": "HH:mm:ss", "stage": "summary", "strategy_version": "abc1234", "decision": "long", "symbols": ["AAPL (medium)", "AMD (high)", "..."]}
+{"date": "YYYY-MM-DD", "timestamp": "HH:mm:ss", "stage": "summary", "strategy_version": "abc1234", "decision": "exit_existing", "symbols": []}
 ```
 
 `rejected` = failed universe filter. `no_signal` = passed filters, no

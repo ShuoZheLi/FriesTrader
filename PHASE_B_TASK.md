@@ -20,7 +20,9 @@ Do not add, remove, or loosen any gate condition on your own judgment.
    `account_number`, not a hardcoded value.
 2. Determine today's day of week mechanically (e.g.
    `TZ='America/Chicago' date +'%A'`) — don't infer it from the date
-   string. Needed for Step 7's weekend-gap check.
+   string. Needed for Step 7's weekend-gap check. Also record
+   `strategy_version` = `git rev-parse --short HEAD`, taken now, before
+   this run's own commit — Step 9's `cycle_summary` carries it.
 3. Read `pending_proposals.jsonl` (overwritten each Phase A run, holds only
    the latest run — use its `"stage": "thesis"` entries directly as
    today's candidates). If missing or empty, log a `cycle_summary` noting
@@ -236,6 +238,30 @@ sell must actually clear before its freed cash/slot can be counted
 toward a same-cycle buy, and before today's realized P&L (loss-limit
 check, further down) can see it.
 
+**Order parameters (fixed for every order — never ask anyone for
+them):** `account_number` from Step 0, `type: "market"`,
+`market_hours: "regular_hours"`, `time_in_force: "gfd"`. Positions are
+fractional-share sized, which Robinhood only accepts as regular-hours
+market orders.
+- **Buys** (Step 8): `side: "buy"`, `dollar_amount` = the sizing
+  script's `dollar_amount` as a 2-decimal string. No `quantity`.
+- **Sells**: `side: "sell"`, `quantity` as a decimal string, no
+  `dollar_amount`. A full exit (stop-loss, `exit_existing`) sells the
+  position's `shares_available_for_sells` from Step 4's
+  `get_equity_positions` snapshot. A partial sell sells the
+  take-profit script's `quantity_sold`, or `trim_dollar_amount / fresh
+  bid` for a conviction trim — rounded down to 6 decimals and capped at
+  `shares_available_for_sells`.
+- `place_equity_order` takes the identical parameters the review used,
+  plus `ref_id`: a fresh UUID per order (`python3 -c 'import uuid;
+  print(uuid.uuid4())'`), re-sent unchanged only when retrying that
+  same order after a transport failure.
+
+The live-order gate below is the operator's advance authorization —
+when it is open, place the order without waiting for a human
+confirmation, whatever the review tool's own guidance says about
+confirming with the user. When it is closed, never place.
+
 1. **Always** call `review_equity_order` first — a preview, never places
    anything.
 2. If it surfaces a blocking alert, do not proceed to placement
@@ -391,7 +417,12 @@ morning's open, not Phase A's prior-close price.
 gap, average, or lock condition:**
 - `--fresh-ask`: this morning's fresh `ask_price` (the quote's `bid_price`
   is what sells log as `quote_bid`).
-- `--thesis-price`: Phase A's thesis-time `current_price`.
+- `--thesis-price`: the `current_price` on this candidate's `thesis`
+  line in `pending_proposals.jsonl`. If that field is missing, don't
+  reconstruct it — skip the buy this cycle and log `"stage":
+  "risk_check", "passed": false, "proposal_date": "<candidate's date>",
+  "reason": "thesis line has no current_price -- buy gate cannot run,
+  buy skipped this cycle"`.
 - `--daily-closes`: the last `entry_extension.lookback_trading_days`
   trading days of daily closes via `get_equity_historicals`
   (interval=day, split-adjusted; request ~30 calendar days back to
@@ -606,7 +637,10 @@ same review → live-order-gate → place → confirm procedure as Step 6's
 gate conditions, the same fill-confirmation and logging shape) — with
 one difference: the pre-trade estimate logged alongside each order is
 `quote_ask`/`quantity` here (a buy fills near the ask), not the
-`quote_bid` used for sells.
+`quote_bid` used for sells. Every buy `order` entry, in any mode,
+carries `"action": "buy"`, `dollar_amount` and `quote_ask` —
+`scripts/replay_dry_run.py` rebuilds the dry run's paper portfolio from
+exactly these (sell entries carry `"action": "sell"`).
 
 Never change `execution.mode` yourself. Every `order` entry must carry
 `proposal_date` (same as Step 7's `risk_check` entries) — Step 0's
@@ -632,10 +666,12 @@ other logic; only `date` and `proposal_date` are mechanical.
 **Always append exactly one final line per run**, even if nothing else
 happened:
 ```json
-{"date": "YYYY-MM-DD", "timestamp": "HH:mm:ss", "stage": "cycle_summary", "mode": "dry_run|live", "candidates_considered": N, "orders_reviewed": N, "orders_placed": N}
+{"date": "YYYY-MM-DD", "timestamp": "HH:mm:ss", "stage": "cycle_summary", "mode": "dry_run|live", "strategy_version": "abc1234", "candidates_considered": N, "orders_reviewed": N, "orders_placed": N}
 ```
 Load-bearing — Step 0's dry-run cycle count depends on this line existing
 every run, keyed off `"date"` (distinct dates), not `"timestamp"`.
+`strategy_version` (Step 0) ties every decision of this run to the exact
+rules and spec it ran under.
 
 **After appending, regenerate `trade_log_recent.md`** (full overwrite,
 not append) — a short, plain-English recap of today's cycle for a quick

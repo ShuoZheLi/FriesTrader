@@ -15,11 +15,15 @@ Candidate JSON is read from stdin, an array of objects:
   {"symbol": "GTLB", "group": "new", "conviction": "high"}
   {"symbol": "AMZN", "group": "held", "conviction": "high", "current_position_value": 100.39}
 `group` is "new" or "held". `current_position_value` is required for
-"held" candidates only.
+"held" candidates only. A "new" candidate below
+--min-new-entry-conviction is rejected without consuming cash or a slot;
+"held" candidates are sized at any conviction.
 """
 import argparse
 import json
 import sys
+
+CONVICTION_RANK = {"high": 0, "medium": 1, "low": 2}
 
 
 def parse_pct_map(s):
@@ -47,6 +51,8 @@ def main():
     p.add_argument("--min-top-up-pct-of-target", type=float, required=True)
     p.add_argument("--conviction-pct", type=parse_pct_map, required=True,
                     help='fixed conviction-tier sizing table, e.g. "high:0.20,medium:0.12,low:0.06"')
+    p.add_argument("--min-new-entry-conviction", choices=sorted(CONVICTION_RANK), required=True,
+                    help="risk_rules.json position_sizing.min_new_entry_conviction")
     args = p.parse_args()
 
     try:
@@ -80,6 +86,18 @@ def main():
 
         if group == "new":
             dollar_amount = round(conviction_pct * args.total_value, 2)
+            if CONVICTION_RANK[conviction] > CONVICTION_RANK[args.min_new_entry_conviction]:
+                results.append({
+                    "symbol": symbol, "group": group, "conviction": conviction,
+                    "passed": False,
+                    "reason": (
+                        f"conviction '{conviction}' is below min_new_entry_conviction "
+                        f"'{args.min_new_entry_conviction}' — new entries need a stronger thesis"
+                    ),
+                    "dollar_amount": dollar_amount,
+                })
+                continue
+
             candidate_concurrent_after = concurrent_positions_after + 1
             candidate_cash_after = cash_remaining - dollar_amount
 

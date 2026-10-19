@@ -47,7 +47,9 @@
     "min_cash_buffer_pct": 0.10,
     "min_top_up_usd": 5.00,
     "min_top_up_pct_of_target": 0.10,
-    "min_top_up_note": "A top-up only fires if the computed buy amount clears max($1.00 broker minimum, min_top_up_usd, min_top_up_pct_of_target x target_size for that candidate's conviction tier). Below that, skip without calling review_equity_order -- a top-up smaller than this doesn't move the position meaningfully, and letting headroom shrink toward zero every cycle otherwise generates a long tail of dust-sized orders as the position converges on target. Applies to top-ups only, never to new-entry sizing."
+    "min_top_up_note": "A top-up only fires if the computed buy amount clears max($1.00 broker minimum, min_top_up_usd, min_top_up_pct_of_target x target_size for that candidate's conviction tier). Below that, skip without calling review_equity_order -- a top-up smaller than this doesn't move the position meaningfully, and letting headroom shrink toward zero every cycle otherwise generates a long tail of dust-sized orders as the position converges on target. Applies to top-ups only, never to new-entry sizing.",
+    "min_new_entry_conviction": "medium",
+    "min_new_entry_conviction_note": "One of 'low', 'medium', 'high'. A new entry (a candidate not already held) is only opened at this conviction or above -- with the default 'medium', a 'low'-conviction thesis (mixed evidence, sentiment-driven, sector-wide, or any risk_flags) never takes one of the max_concurrent_positions slots, keeping them free for stronger candidates later. Held positions are unaffected: their stop-loss, take-profit, conviction-trim, and exit checks still run at any conviction. Set to 'low' to allow low-conviction new entries again."
   },
 
   "stop_loss": {

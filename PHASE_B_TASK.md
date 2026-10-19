@@ -542,7 +542,7 @@ and `concurrent_positions_start` (the `open_slots` computation above).
 
 Rank the candidates, then size them — pipe the candidate list (a JSON
 array) through both scripts in sequence (directly chainable):
-`python3 scripts/rank_candidates.py | python3 scripts/position_sizing.py --total-value <total_value> --cash-start <cash> --concurrent-positions-start <concurrent_positions_start> [--entries-halted] --max-position-pct <position_sizing.max_position_pct_of_account> --max-concurrent-positions <position_sizing.max_concurrent_positions> --min-cash-buffer-pct <position_sizing.min_cash_buffer_pct> --min-top-up-usd <position_sizing.min_top_up_usd> --min-top-up-pct-of-target <position_sizing.min_top_up_pct_of_target> --conviction-pct "high:0.20,medium:0.12,low:0.06"`
+`python3 scripts/rank_candidates.py | python3 scripts/position_sizing.py --total-value <total_value> --cash-start <cash> --concurrent-positions-start <concurrent_positions_start> [--entries-halted] --max-position-pct <position_sizing.max_position_pct_of_account> --max-concurrent-positions <position_sizing.max_concurrent_positions> --min-cash-buffer-pct <position_sizing.min_cash_buffer_pct> --min-top-up-usd <position_sizing.min_top_up_usd> --min-top-up-pct-of-target <position_sizing.min_top_up_pct_of_target> --conviction-pct "high:0.20,medium:0.12,low:0.06" --min-new-entry-conviction <position_sizing.min_new_entry_conviction>`
 `rank_candidates.py` sorts by conviction tier first (`high` before
 `medium` before `low`), then `risk_flags` count ascending within a
 tier (a missing `risk_flags` field sorts last, treated as worst
@@ -576,6 +576,11 @@ A **new**-group candidate rejected purely for lack of slots carries
 the script's own `"concurrent_positions_after (N) exceeds
 max_concurrent_positions (M) — cap filled by higher-priority
 candidates this cycle"` wording, to show it's scarcity, not quality.
+A **new**-group candidate whose conviction is below
+`position_sizing.min_new_entry_conviction` carries the script's own
+`"conviction '<tier>' is below min_new_entry_conviction '<min>' — new
+entries need a stronger thesis"` wording instead — it consumes no slot
+or cash. This never applies to **held** candidates.
 
 **If either script fails to run**, do not guess a result: reject every
 still-pending candidate this cycle — log `"stage": "risk_check",

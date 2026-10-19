@@ -116,7 +116,8 @@ candidates are bought:
 - **Size** (`position_sizing.py`). In ranked order, each candidate is
   bought at its conviction-tier size (a fixed percent of the account)
   until `max_concurrent_positions` or the `min_cash_buffer_pct` floor is
-  reached.
+  reached. A new entry below `position_sizing.min_new_entry_conviction`
+  is skipped, so weak theses don't occupy a slot.
 
 Every decision is logged to `trade_log.jsonl`. Some cycles buy nothing.
 

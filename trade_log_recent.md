@@ -1,16 +1,18 @@
-# 2026-10-19
+# 2026-10-20
 
-First live cycle (Monday). Mode `live`, strategy version `fb1ff11`.
+Live cycle (Tuesday). Mode `live`, strategy version `c83ab64`.
 
-**Loss-limit check:** clear — no realized P&L today or this week; `net_deposits_usd` $100.00 (total value $100.00, no open positions, no realized P&L). Entries not halted.
+**Loss-limit check:** clear — no realized P&L today or this week; `net_deposits_usd` $100.00 (total value $99.90, AVTR cost basis $12.00, unrealized −$0.10). Entries not halted.
 
-**Held positions:** none at the start of the cycle, so no stop-loss/take-profit/conviction-trim checks ran and no sells.
+**Held positions:**
+- **AVTR** — holding. Price $16.34 vs. $16.51 average cost (−1.0%); stop is 5.0% (20-day volatility 1.73% × 2.5 = 4.3%, raised to the 5% minimum), not triggered. No take-profit tier reached; not overweight (no trim).
 
-**Candidates** (from this morning's Phase A; 10 other theses were `avoid` and not processed):
-- **AVTR** (long, medium) — passed every buy check: overnight gap +0.55% (limit 3%), 7.1% above its 20-day average (limit 10%), no wash-sale or re-entry lock, earnings Oct 28 is 7 trading days out (blackout 5). No contradicting weekend news. Sized at $12.00 (12% of account) → **bought**.
-- **SHO** (long, low) — passed the buy checks but rejected by sizing: low conviction is below `min_new_entry_conviction` (medium).
+**Candidates** (from yesterday afternoon's Phase A):
+- **CLF** (long, medium) — passed every buy check: price 7.7% *below* the thesis price (checked against the invalidation criteria — no adverse news, still above ~$12.12), 6.6% above its 20-day average (limit 10%), no wash-sale or re-entry lock, next earnings ~79 trading days out. Sized at $11.99 (12% of account) → **bought**.
+- **HAS** (long, low) — blocked: gapped +8.85% above the thesis price (limit 3%) and 16.8% above its 20-day average (limit 10%) after this morning's Q3 beat.
+- **AVTR, SHO** — skipped: already decided for proposal date 2026-10-19 (idempotency rule).
 
 **Orders placed:**
-- **BUY AVTR $12.00** — market order, filled 0.726942 shares at $16.5075 (order `6ad61d39-58da-4758-80cc-57757db6faea`).
+- **BUY CLF $11.99** — market order, filled 0.911794 shares at $13.1499 (order `6ad76f96-39b3-47d3-a1d3-61d721909b60`).
 
-Cash after: about $88.00. Open positions: 1 of 4.
+Cash after: about $76.01. Open positions: 2 of 4 (AVTR, CLF).

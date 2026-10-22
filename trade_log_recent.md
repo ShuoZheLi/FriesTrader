@@ -1,18 +1,28 @@
-# 2026-10-21
+# 2026-10-22
 
-Live cycle (Wednesday). Mode `live`, strategy version `3f1e2f2`. No orders placed today.
+Live cycle (Thursday). Mode `live`, strategy version `9a2f7c7`. One buy was placed today.
 
-**Loss-limit check:** clear. No realized P&L today or this week; `net_deposits_usd` is $100.00 (total value $100.56, open-position cost basis $23.99, unrealized +$0.55). Entries not halted.
+**Loss-limit check:** clear. No realized P&L today or this week. `net_deposits_usd` is $100.00: total value $101.15, open-position cost basis $23.99, unrealized +$1.15. Entries not halted.
 
 **Held positions:**
-- **AVTR** — holding. Price $16.67 vs. $16.51 average cost (+1.0%). It is at a gain, so no stop was computed, and no take-profit tier was reached. Position $12.12 vs. $12.07 target, not overweight, so no trim.
-- **CLF** — holding. Price $13.655 vs. $13.15 average cost (+3.8%). It is at a gain, so no stop was computed, and no take-profit tier was reached. Position $12.45 vs. $12.07 target, 3.2% over (trim trigger is 25%), so no trim.
+- **AVTR** — holding. Price $17.37 vs. $16.51 average cost (+5.2%). At a gain, so no stop was computed. The first take-profit tier (+15%) has not been reached. The position is $12.63 vs. its $12.14 target, 4.0% over (the trim trigger is 25%), so no trim.
+- **CLF** — holding. Price $13.73 vs. $13.15 average cost (+4.4%). At a gain, so no stop was computed. No take-profit tier has been reached. The position is $12.52 vs. its $12.14 target, 3.1% over, so no trim.
 
 **Candidates** (from yesterday afternoon's Phase A):
-- **HAS** (long, high, new) — blocked: price is 19.0% above its 20-day average ($92.88 → $110.50); the limit is 10%.
-- **TW** (long, medium, new) — blocked: price is 11.6% above its 20-day average ($107.20 → $119.64); the limit is 10%.
-- **AVTR** (long, medium, top-up) — blocked: earnings blackout, with Q3 results on Oct 28, 5 trading days away.
-- **CLF** (long, medium, top-up) — blocked: price is 11.2% above its 20-day average ($12.28 → $13.66); the limit is 10%.
-- **FITB**, **TREX** (long, low, new) — passed the buy gate but were rejected by sizing: low conviction is below the `medium` minimum for new entries.
+- **ROIV** (long, medium, new) passed every buy check:
+  - price 1.2% above the thesis price;
+  - 5.8% above its 20-day average (limit 10%);
+  - no wash-sale or re-entry lock;
+  - earnings 12 trading days away.
 
-Cash: $76.01, unchanged. Open positions: 2 of 4 (AVTR, CLF).
+  Sized at $12.14 (12% of the account) and **bought**.
+- **HAS** (long, high, new) — blocked: the price is 20.9% above its 20-day average ($94.26 → $114.00); the limit is 10%.
+- **SHO** (long, low, new) — blocked: the price is 10.3% above its 20-day average ($11.53 → $12.71).
+- **AVTR** (long, medium, top-up) — blocked on two counts: the price is 11.1% above its 20-day average, and Q3 earnings on Oct 28 are 4 trading days away (blackout).
+- **CLF** (long, medium, top-up) — blocked: the price is 11.3% above its 20-day average ($12.34 → $13.73).
+- **DLO** (long, low, new) — passed the buy gate, but sizing rejected it: low conviction is below the `medium` minimum for new entries.
+
+**Orders placed:**
+- **BUY ROIV $12.14** — market order, filled 0.32253 shares at $37.6399 (order `6ada11ce-8e7b-45ca-881e-41ff096038f5`).
+
+Cash after: about $63.87. Open positions: 3 of 4 (AVTR, CLF, ROIV).

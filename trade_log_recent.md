@@ -1,46 +1,39 @@
-# 2026-10-26
+# 2026-10-27
 
-Live cycle (Monday). Mode `live`, strategy version `26d8eef`. One buy was placed. All four position slots are now filled.
-
-**Weekend-gap check:** one Saturday/Sunday news search was run per candidate (RNG, GMAB, RHI, REXR, GBCI, AVTR, CLF, ROIV). Nothing contradicted any thesis.
-- Two developments predate the weekend and are already among CLF's open counter-cases: the Hamilton (Stelco) layoffs, confirmed Oct 21, and a director's open-market purchase on Oct 22.
+Live cycle (Tuesday). Mode `live`, strategy version `ceb8dd1`. No orders were placed. All four position slots remain filled.
 
 **Loss-limit check:** clear. There was no realized P&L today or this week. `net_deposits_usd` is $100.00:
-- total value: $101.04
-- open-position cost basis: $36.13
-- unrealized P&L: +$1.04
+- total value: $101.43
+- open-position cost basis: $56.34
+- unrealized P&L: +$1.43
 
 Entries are not halted.
 
 **Held positions:**
 - **AVTR:** holding.
-  - Price $17.225 vs. $16.51 average cost (+4.3%).
+  - Price $17.235 vs. $16.51 average cost (+4.4%).
   - It is at a gain, so no stop was computed. No take-profit tier was reached, and there is no trim.
 - **CLF:** holding.
-  - Price $14.035 vs. $13.15 average cost (+6.7%).
+  - Price $13.975 vs. $13.15 average cost (+6.3%).
   - It is at a gain, so no stop was computed. No take-profit tier was reached.
-  - The position is 5.5% over target; the trim trigger is 25%.
+  - The position is 4.7% over target; the trim trigger is 25%.
 - **ROIV:** holding.
-  - Price $36.625 vs. $37.64 average cost (−2.7%).
-  - The stop is 6.06% (20-day volatility 2.42% × 2.5) and was not triggered. No take-profit tier was reached, and there is no trim.
+  - Price $35.89 vs. $37.64 average cost (−4.6%).
+  - The stop is 6.05% (20-day volatility 2.42% × 2.5) and was not triggered. No take-profit tier was reached, and there is no trim.
+- **RNG:** holding.
+  - Price $85.7575 vs. $82.73 average cost (+3.7%).
+  - It is at a gain, so no stop was computed. No take-profit tier was reached.
+  - The position is 3.3% over target; the trim trigger is 25%.
 
-**Candidates** (from Friday afternoon's Phase A):
-- **RNG** (long, high, new) passed every buy check:
-  - The price is 0.9% below the thesis price.
-  - It is 5.6% above its 20-day average; the limit is 10%.
-  - There is no wash-sale or re-entry lock.
-  - The next earnings report is 78 trading days away.
+**Candidates** (from Monday afternoon's Phase A):
+- **WTTR** (long, low, new): skipped. There are no open slots (4 of 4 held).
+- **RNG** (long, high, top-up): passed the buy gate, but it is already above its $20.29 target ($20.95). No top-up.
+- **ROIV** (long, medium, top-up): passed the buy gate, but there is only $0.59 of headroom to target, below the $5.00 minimum top-up.
+- **AVTR** (long, medium, top-up): blocked by the earnings blackout. Q3 earnings on Oct 28 (am) are 1 trading day away.
+- **CLF** (long, medium, top-up): blocked by two checks.
+  - The price gapped 4.6% above the thesis price (limit 3%).
+  - It is 11.4% above its 20-day average (limit 10%).
 
-  Sized at $20.21 (20% of the account) → **bought**.
-- **REXR** (long, medium, new): passed the buy gate, but RNG took the last slot (4 of 4).
-- **ROIV** (long, medium, top-up): passed the buy gate, but there is only $0.31 of headroom to target, below the $5.00 minimum top-up.
-- **GMAB** (long, medium, new): blocked. The price gapped 3.2% above the thesis price (limit 3%) and is 20.7% above its 20-day average (limit 10%).
-- **RHI** (long, medium, new): blocked. The price is 27.2% above its 20-day average.
-- **GBCI** (long, low, new): blocked. The price is 11.5% above its 20-day average.
-- **CLF** (long, medium, top-up): blocked. The price is 12.8% above its 20-day average.
-- **AVTR** (long, medium, top-up): blocked by the earnings blackout. Q3 earnings on Oct 28 are 2 trading days away.
+**Orders placed:** none.
 
-**Orders placed:**
-- **BUY RNG $20.21**: market order, filled 0.244276 shares at $82.734 (order `6adf58cd-604f-4e1c-bad9-25280c327749`).
-
-Cash after: about $43.66. Open positions: 4 of 4 (AVTR, CLF, ROIV, RNG).
+Cash: $43.66. Open positions: 4 of 4 (AVTR, CLF, ROIV, RNG).

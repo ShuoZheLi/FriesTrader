@@ -1,49 +1,51 @@
-# 2026-11-03
+# 2026-11-04
 
-Live cycle (Tuesday). Mode `live`, strategy version `c69fbf9`. One order was placed: a new NWL position. All five position slots are now filled.
+Live cycle (Wednesday). Mode `live`, strategy version `c58f391`. Two orders were placed: RNG was sold as an `exit_existing`, and a new JAN position was bought. All five position slots are filled again.
 
 **Loss-limit check:** clear.
-- Realized P&L is $0.00 today and −$0.53 this week (−0.53% of net deposits), so entries are not halted.
+- Realized P&L is −$0.80 today (−0.80%) and −$1.33 this week (−1.33%), so entries are not halted.
 - `net_deposits_usd` is $100.00, computed from:
-  - total value: $98.05
-  - open-position cost basis: $56.50
-  - unrealized P&L: −$1.42
-  - all-time realized P&L: −$0.53
+  - total value: $100.00
+  - open-position cost basis: $48.06
+  - unrealized P&L: +$1.33
+  - all-time realized P&L: −$1.33
 
 **Held positions** (stop-loss, take-profit and trim checks):
+- **RNG:** sold.
+  - Tuesday's Phase A marked it `exit_existing`: the second straight close was below the ~$79.42 pre-report level, after the early-exit guard window had passed (the opening buy was 10-26, 7 trading days ago).
+  - Sold 0.244276 shares, filled at $79.47, realizing −$0.80.
+  - No wash-sale flag: the position is fully closed.
+  - Before the sale, the stop (8.80%) had not triggered: drawdown was 4.1%.
 - **CLF:** holding.
-  - Price $14.10 vs. $13.15 average cost (+7.2%).
-  - It is at a gain, so no stop was computed. No take-profit tier was reached.
-  - The position is 9.3% over target; the trim trigger is 25%.
+  - Price $14.04 vs. $13.15 average cost (+6.8%).
+  - It is at a gain, so no stop was computed. No take-profit tier was reached, and there is no trim.
 - **ROIV:** holding.
-  - Price $36.39 vs. $37.64 average cost (−3.3%).
-  - The stop is 6.22% (20-day volatility 2.49% × 2.5) and was not triggered. No take-profit tier was reached, and there is no trim.
-- **RNG:** holding.
-  - Price $76.11 vs. $82.73 average cost (−8.0%). The stop is 8.82% (20-day volatility 3.53% × 2.5) and was not triggered, but it is close.
-  - No take-profit tier was reached.
-  - Yesterday's Phase A lowered conviction to low, so the target is now $5.88. The position is 216% over target: overweight cycle 1 of 3 before a trim can fire.
+  - Price $36.45 vs. $37.64 average cost (−3.2%).
+  - The stop is 6.07% and was not triggered. No take-profit tier was reached, and there is no trim.
 - **CNC:** holding.
-  - Price $66.80 vs. $68.28 average cost (−2.2%).
-  - The stop is 5.00% (the floor) and was not triggered. No take-profit tier was reached.
-  - Conviction is now low, so the target is $5.88. The position is 102% over target: overweight cycle 1 of 3 before a trim can fire.
+  - Price $71.70 vs. $68.28 average cost (+5.0%).
+  - It is at a gain, so no stop was computed. No take-profit tier was reached.
+  - Conviction is low, so the target is $6.00. The position is 114% over target: overweight cycle 2 of 3. A trim fires next cycle if conviction stays below high and the overage stays above 25%.
+- **NWL:** holding.
+  - Price $5.96 vs. $5.82 average cost (+2.3%).
+  - It is at a gain, so no stop was computed. No take-profit tier was reached, and there is no trim.
 
-**Candidates** (from Monday afternoon's Phase A):
-- **NWL** (new, medium): approved and bought for $11.77. It passed the buy gate:
-  - gap −1.8% vs. thesis price
-  - 5.8% above its 20-day average
-  - next earnings 64 trading days away
-- **EL** (new, medium): passed the buy gate, but the last slot went to NWL, which ranks higher (16.3% vs. 13.7% below its 52-week high).
-- **TEM** (new, medium): skipped by the buy gate.
-  - The price gapped 5.1% above the thesis price ($78.47 → $82.46), and it is 18.0% above its 20-day average.
-- **EXEL** (new, low, `active_litigation`): skipped by the buy gate.
-  - It is 13.5% above its 20-day average. Its low conviction would also have blocked a new entry.
-- **ROIV** (held, medium, top-up): skipped for the earnings blackout.
-  - Its next earnings is 2026-11-09, 4 trading days away.
-- **CLF** (held, medium, top-up): passed the gate. No top-up: it is already above its $11.77 target.
-- **RNG** and **CNC** (held, low, top-ups): passed the gate. No top-up: both are well above their $5.88 low-tier target.
-- **VG** (avoid): not processed.
+**Candidates** (from Tuesday afternoon's Phase A; one slot opened after the RNG sale):
+- **JAN** (new, medium): approved and bought for $12.00. It passed the buy gate:
+  - gap +2.3% vs. thesis price; re-checked, with no invalidating news
+  - 6.1% above its 20-day average
+  - next earnings 74 trading days away
+- **NBIX** (new, high): skipped by the buy gate. It is 16.2% above its 20-day average after its post-earnings jump.
+- **GKOS** (new, medium): skipped by the buy gate. The price gapped 4.0% above the thesis price, and it is 31.0% above its 20-day average.
+- **FISV** (new, low): skipped by the buy gate. The price gapped 4.3%, and it is 25.9% above its 20-day average.
+- **INGM** (new, low, `dilution_risk`): passed the buy gate, but was rejected because its conviction is below the medium minimum for new entries.
+- **CLF** (held, medium, top-up): passed the gate. No top-up: it is already above its $12.00 target.
+- **ROIV** (held, top-up): skipped for the earnings blackout. Its next earnings is 2026-11-09, 3 trading days away.
+- **CNC** (held, top-up): skipped by the buy gate. The price gapped 6.7% above the thesis price.
+- **NWL** (held, top-up): skipped by the buy gate. The price gapped 6.5% above the thesis price.
 
 **Orders placed:**
-- NWL buy, $11.77. Filled 2.021711 shares at $5.8218. Order `6ae9f1bb-1181-4035-9776-06b6cad8e12a`.
+- RNG sell, 0.244276 shares. Filled at $79.47. Order `6aeb4326-c482-4105-9e3e-c6e95b72b170`.
+- JAN buy, $12.00. Filled 0.396939 shares at $30.2313. Order `6aeb4371-f709-4533-bc78-4f4f61ac732e`.
 
-Cash: about $31.20. Open positions: 5 of 5 (CLF, ROIV, RNG, CNC, NWL).
+Cash: about $38.61. Open positions: 5 of 5 (CLF, ROIV, CNC, NWL, JAN).

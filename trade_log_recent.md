@@ -1,51 +1,46 @@
-# 2026-11-04
+# 2026-11-05
 
-Live cycle (Wednesday). Mode `live`, strategy version `c58f391`. Two orders were placed: RNG was sold as an `exit_existing`, and a new JAN position was bought. All five position slots are filled again.
+Live cycle (Thursday). Mode `live`, strategy version `0e0ffbd`. One order was placed: JAN was sold as an `exit_existing`. There were no buys, so 4 of 5 slots are in use.
 
 **Loss-limit check:** clear.
-- Realized P&L is −$0.80 today (−0.80%) and −$1.33 this week (−1.33%), so entries are not halted.
+- Realized P&L is −$0.27 today (−0.27%) and −$1.60 this week (−1.60%), so entries are not halted.
 - `net_deposits_usd` is $100.00, computed from:
-  - total value: $100.00
+  - total value: $99.97
   - open-position cost basis: $48.06
-  - unrealized P&L: +$1.33
-  - all-time realized P&L: −$1.33
+  - unrealized P&L: +$1.57
+  - all-time realized P&L: −$1.60
 
 **Held positions** (stop-loss, take-profit and trim checks):
-- **RNG:** sold.
-  - Tuesday's Phase A marked it `exit_existing`: the second straight close was below the ~$79.42 pre-report level, after the early-exit guard window had passed (the opening buy was 10-26, 7 trading days ago).
-  - Sold 0.244276 shares, filled at $79.47, realizing −$0.80.
+- **JAN:** sold.
+  - Wednesday's Phase A marked it `exit_existing` after JAN launched a 25M-share public offering after the 11-04 close. It had already completed a 16M-share offering in August, which the entry thesis had missed.
+  - The early-exit guard applied, since the position was opened 11-04. It was satisfied because the offering is a new fact dated 11-04, after the 11-03 entry thesis.
+  - Sold 0.396939 shares, filled at $29.5556, realizing −$0.27.
   - No wash-sale flag: the position is fully closed.
-  - Before the sale, the stop (8.80%) had not triggered: drawdown was 4.1%.
+  - Before the sale, the stop (5.00%) had not triggered: drawdown was 2.4%.
 - **CLF:** holding.
-  - Price $14.04 vs. $13.15 average cost (+6.8%).
-  - It is at a gain, so no stop was computed. No take-profit tier was reached, and there is no trim.
+  - Price $12.83 vs. $13.15 average cost (−2.4%).
+  - The stop is 13.84% (20-day volatility 5.54% × 2.5) and was not triggered. No take-profit tier was reached, and there is no trim.
 - **ROIV:** holding.
-  - Price $36.45 vs. $37.64 average cost (−3.2%).
-  - The stop is 6.07% and was not triggered. No take-profit tier was reached, and there is no trim.
-- **CNC:** holding.
-  - Price $71.70 vs. $68.28 average cost (+5.0%).
-  - It is at a gain, so no stop was computed. No take-profit tier was reached.
-  - Conviction is low, so the target is $6.00. The position is 114% over target: overweight cycle 2 of 3. A trim fires next cycle if conviction stays below high and the overage stays above 25%.
-- **NWL:** holding.
-  - Price $5.96 vs. $5.82 average cost (+2.3%).
+  - Price $37.74 vs. $37.64 average cost (+0.3%).
   - It is at a gain, so no stop was computed. No take-profit tier was reached, and there is no trim.
+- **CNC:** holding.
+  - Price $76.80 vs. $68.28 average cost (+12.5%).
+  - It is at a gain, so no stop was computed. No take-profit tier was reached; the first tier is at +15%.
+  - Conviction is back to medium, so it is only 14.5% over its $12.00 target, and the overweight count resets to 0.
+- **NWL:** holding.
+  - Price $6.00 vs. $5.82 average cost (+3.1%).
+  - It is at a gain, so no stop was computed. No take-profit tier was reached.
+  - Conviction is now low, so the target is $6.00. The position is 103% over target: overweight cycle 1 of 3.
 
-**Candidates** (from Tuesday afternoon's Phase A; one slot opened after the RNG sale):
-- **JAN** (new, medium): approved and bought for $12.00. It passed the buy gate:
-  - gap +2.3% vs. thesis price; re-checked, with no invalidating news
-  - 6.1% above its 20-day average
-  - next earnings 74 trading days away
-- **NBIX** (new, high): skipped by the buy gate. It is 16.2% above its 20-day average after its post-earnings jump.
-- **GKOS** (new, medium): skipped by the buy gate. The price gapped 4.0% above the thesis price, and it is 31.0% above its 20-day average.
-- **FISV** (new, low): skipped by the buy gate. The price gapped 4.3%, and it is 25.9% above its 20-day average.
-- **INGM** (new, low, `dilution_risk`): passed the buy gate, but was rejected because its conviction is below the medium minimum for new entries.
-- **CLF** (held, medium, top-up): passed the gate. No top-up: it is already above its $12.00 target.
-- **ROIV** (held, top-up): skipped for the earnings blackout. Its next earnings is 2026-11-09, 3 trading days away.
-- **CNC** (held, top-up): skipped by the buy gate. The price gapped 6.7% above the thesis price.
-- **NWL** (held, top-up): skipped by the buy gate. The price gapped 6.5% above the thesis price.
+**Candidates** (from Wednesday afternoon's Phase A; one slot opened after the JAN sale):
+- **YOU, VRDN, SWK, FLYW** (new, medium): all skipped by the buy gate after their post-earnings jumps. They are 32.6%, 31.9%, 23.3% and 12.6% above their 20-day averages; the cap is 10%.
+- **GXO, PFGC** (new, low): skipped by the buy gate. They are 16.7% and 15.2% above their 20-day averages, and their low conviction would also have blocked a new entry.
+- **CLF** (held, medium, top-up): passed the gate. No top-up: the $0.39 of headroom is below the $5.00 minimum.
+- **ROIV** (held, top-up): skipped for the earnings blackout. Its next earnings is 2026-11-09, 2 trading days away.
+- **CNC** (held, top-up): skipped by the buy gate. It is 12.0% above its 20-day average.
+- **NWL** (held, top-up): skipped by the buy gate. The price gapped 3.3% above the thesis price.
 
 **Orders placed:**
-- RNG sell, 0.244276 shares. Filled at $79.47. Order `6aeb4326-c482-4105-9e3e-c6e95b72b170`.
-- JAN buy, $12.00. Filled 0.396939 shares at $30.2313. Order `6aeb4371-f709-4533-bc78-4f4f61ac732e`.
+- JAN sell, 0.396939 shares. Filled at $29.5556. Order `6aec948f-d01e-4326-b33c-67025b769917`.
 
-Cash: about $38.61. Open positions: 5 of 5 (CLF, ROIV, CNC, NWL, JAN).
+Cash: $50.34. Open positions: 4 of 5 (CLF, ROIV, CNC, NWL).

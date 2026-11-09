@@ -1,44 +1,45 @@
-# 2026-11-06
+# 2026-11-09
 
-Live cycle (Friday). Mode `live`, strategy version `f9f2ceb`. One order was placed: CLF was sold as an `exit_existing`. There were no buys, so 3 of 5 slots are in use.
+Live cycle (Monday). Mode `live`, strategy version `67bda35`. Two orders were placed: a conviction trim on NWL, and a new entry in FROG. Open positions are now 4 of 5.
 
 **Loss-limit check:** clear.
-- Realized P&L is −$1.47 today (−1.47%) and −$3.07 this week (−3.07%), so entries are not halted.
+- Realized P&L is −$0.08 today (−0.08%) and −$2.62 over the trailing week (−2.62%), so entries are not halted.
 - `net_deposits_usd` is $100.00, computed from:
-  - total value: $96.75
-  - open-position cost basis: $36.07
-  - unrealized P&L: −$0.18
-  - all-time realized P&L: −$3.07
+  - total value: $98.09
+  - open-position cost basis: $30.32
+  - unrealized P&L: +$1.24
+  - all-time realized P&L: −$3.15
 
 **Held positions** (stop-loss, take-profit and trim checks):
-- **CLF:** sold.
-  - Thursday's Phase A marked it `exit_existing`.
-  - The early-exit guard did not apply: the position was opened 10-20, more than 5 trading days ago.
-  - Sold 0.911794 shares, filled at $11.54, realizing −$1.47.
-  - No wash-sale flag: the position is fully closed.
-  - Before the sale, the stop had not triggered. Price was $11.555 vs. $13.15 average cost, a 12.1% drawdown. The stop is 15.00%: 20-day volatility 6.04% × 2.5, capped at the 15% maximum.
 - **ROIV:** holding.
-  - Price $37.19 vs. $37.64 average cost (−1.2%).
-  - The stop is 7.11% and was not triggered. No take-profit tier was reached, and there is no trim.
+  - Price $39.98 vs. $37.64 average cost (+6.2%).
+  - It is at a gain, so no stop was computed. No take-profit tier was reached.
+  - It is 9.9% over its $11.73 target, so there is no trim.
+  - Fiscal Q2 was reported this morning: EPS −$0.27 vs. a −$0.46 estimate.
 - **CNC:** holding.
-  - Price $72.22 vs. $68.28 average cost (+5.8%).
-  - It is at a gain, so no stop was computed. No take-profit tier was reached; the first tier is at +15%.
-  - It is 11.5% over its $11.61 target, so there is no trim.
-- **NWL:** holding.
-  - Price $5.40 vs. $5.82 average cost (−7.2%).
-  - The stop is 12.39% and was not triggered. No take-profit tier was reached.
-  - Conviction is low, so the target is $5.80. The position is 89% over target: overweight cycle 2 of 3.
+  - Price $70.15 vs. $68.28 average cost (+2.7%).
+  - It is at a gain, so no stop was computed. No take-profit tier was reached.
+  - It is 6.5% over its $11.73 target, so there is no trim.
+- **NWL:** trimmed.
+  - Price $5.67 vs. $5.82 average cost (−2.6%).
+  - The stop is 12.38% and was not triggered. No take-profit tier was reached.
+  - Conviction is low and the position was 96% over its $5.86 target for a third consecutive cycle, so the conviction trim fired.
+  - Sold 0.987654 shares at $5.74 (about $5.67), realizing −$0.08.
+  - Possible wash-sale flag: the 1.034057 shares still held are the rest of the same 11-03 purchase. This is informational only.
 
-**Candidates** (from Thursday afternoon's Phase A; two slots were open after the CLF sale):
-- **BSY, U, MGNI, FWONK** (new, medium): all skipped by the buy gate after their post-earnings jumps.
-  - They are 13.6%, 21.9%, 16.8% and 13.7% above their 20-day averages; the cap is 10%.
-  - U also gapped 4.3% above its thesis price; the cap is 3%.
-- **ADMA** (new, low): skipped by the buy gate. It is 19.7% above its 20-day average, and its low conviction would also have blocked a new entry.
-- **ROIV** (held, top-up): skipped for the earnings blackout. Its next earnings is 2026-11-09, 1 trading day away.
-- **CNC** (held, medium, top-up): passed the gate. No top-up: it is already above its $11.61 target ($12.95).
-- **NWL** (held, low, top-up): passed the gate. No top-up: it is already above its $5.80 target ($10.96).
+**Candidates** (from Friday afternoon's Phase A):
+- **Weekend-gap check:** one search per candidate found no Saturday or Sunday news that contradicts any thesis.
+- **FROG** (new, medium): passed the gate.
+  - The price is 0.3% below the thesis price and 7.6% above its 20-day average.
+  - Approved and sized at $11.77, then bought.
+- **VNT** and **LION** (new, medium): skipped by the buy gate. They are 21.1% and 19.5% above their 20-day averages; the cap is 10%.
+- **EXTR** and **GH** (new, medium): skipped by the buy gate. They opened 3.6% and 3.9% above their thesis prices; the cap is 3%.
+- **ROIV** (held, top-up): skipped by the buy gate. It opened 4.6% above its thesis price and is 13.2% above its 20-day average.
+- **CNC** (held, top-up): passed the gate. No top-up: it is already above its $11.77 target ($12.51).
+- **NWL** (held, top-up): not eligible, because it was trimmed this cycle.
 
 **Orders placed:**
-- CLF sell, 0.911794 shares. Filled at $11.54. Order `6aede635-e374-4be1-8359-27f4c67ef724`.
+- NWL sell (conviction trim), 0.987654 shares. Filled at $5.74. Order `6af1daaa-80c9-4217-bac8-181a640ff211`.
+- FROG buy, $11.77. Filled 0.11687 shares at $100.7099. Order `6af1dae6-7635-41fa-935d-4db0e1e197df`.
 
-Cash: $60.86. Open positions: 3 of 5 (ROIV, CNC, NWL).
+Cash: about $54.76. Open positions: 4 of 5 (ROIV, CNC, NWL, FROG).

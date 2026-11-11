@@ -1,39 +1,41 @@
-# 2026-11-10
+# 2026-11-11
 
-Live cycle (Tuesday). Mode `live`, strategy version `ee0bb51`. No orders were placed: no sell rule fired, and every buy candidate was blocked or already at target. Open positions: 4 of 5.
+Live cycle (Wednesday). Mode `live`, strategy version `cb211dc`. No orders were placed: no sell rule fired, and every buy candidate was blocked or rejected by sizing. Open positions: 4 of 5.
 
 **Loss-limit check:** clear.
-- Realized P&L is $0.00 today and −$2.62 over the trailing week (−2.62%), so entries are not halted.
+- Realized P&L is $0.00 today and −$1.82 over the trailing week (−1.82%), so entries are not halted.
 - `net_deposits_usd` is $100.00, computed from:
-  - total value: $98.10
+  - total value: $99.45
   - open-position cost basis: $42.09
-  - unrealized P&L: +$1.25
+  - unrealized P&L: +$2.60
   - all-time realized P&L: −$3.15
 
 **Held positions** (stop-loss, take-profit and trim checks):
 - **ROIV:** holding.
-  - Price $40.29 vs. $37.64 average cost (+7.0%).
-  - It is at a gain, so no stop was computed. No take-profit tier was reached.
-  - It is 10.4% over its $11.77 target, so there is no trim.
+  - Price $41.09 vs. $37.64 average cost (+9.2%).
+  - It is at a gain, so no stop was computed. No take-profit tier was reached (the first is at +15%).
+  - It is 11.1% over its $11.93 target, so there is no trim.
 - **CNC:** holding.
-  - Price $68.50 vs. $68.28 average cost (+0.3%).
+  - Price $70.72 vs. $68.28 average cost (+3.6%).
   - It is at a gain, so no stop was computed. No take-profit tier was reached.
-  - It is 3.7% over its $11.77 target, so there is no trim.
+  - It is 5.6% over target, so there is no trim.
 - **NWL:** holding.
-  - Price $5.74 vs. $5.82 average cost (−1.4%).
-  - The stop is 13.14% and was not triggered. No take-profit tier was reached.
-  - It is about at its $5.89 target after yesterday's trim, so there is no trim.
-- **FROG:** holding.
-  - Price $104.50 vs. $100.71 average cost (+3.8%).
+  - Price $5.85 vs. $5.82 average cost (+0.5%).
   - It is at a gain, so no stop was computed. No take-profit tier was reached.
-  - It is 3.7% over its $11.77 target, so there is no trim.
+  - It is about at its $5.97 target, so there is no trim.
+- **FROG:** holding.
+  - Price $109.43 vs. $100.71 average cost (+8.7%).
+  - It is at a gain, so no stop was computed. No take-profit tier was reached.
+  - It is 7.2% over target, so there is no trim.
 
-**Candidates** (from Monday afternoon's Phase A; one slot was open):
-- **TGTX, VIR, WRBY** (new, medium): skipped by the buy gate. They are 14.6%, 23.2% and 19.6% above their 20-day averages; the cap is 10%.
-- **LFST, TIC** (new, low, with risk flags): skipped by the buy gate. They are 11.2% and 14.9% above their 20-day averages, and their low conviction would also have blocked a new entry.
-- **ROIV, FROG** (held, top-up): skipped by the buy gate. They are 11.3% and 11.4% above their 20-day averages.
-- **NWL** (held, top-up): skipped by the wash-sale guard, because of yesterday's loss-realizing trim.
-- **CNC** (held, top-up): passed the gate. No top-up: it is already above its $11.77 target ($12.20).
+**Candidates** (from Tuesday afternoon's Phase A; one slot was open):
+- **TGTX, TTWO** (new, medium): skipped by the buy gate. They are 10.8% and 11.5% above their 20-day averages; the cap is 10%.
+- **LFST** (new, low, dilution flag): skipped by the buy gate. It is 12.5% above its 20-day average.
+- **FA** (new, low, dilution flag): passed the gate. Rejected by sizing: low conviction is below the medium minimum for new entries.
+- **ROIV** (held, top-up): skipped by the buy gate. It is 12.3% above its 20-day average.
+- **FROG** (held, top-up): skipped by the buy gate. It opened 6.1% above its thesis price and is 16.5% above its 20-day average.
+- **NWL** (held, top-up): skipped by the wash-sale guard (loss-realizing trim on 11-09) and the sell re-entry lock.
+- **CNC** (held, top-up): passed the gate. No top-up: it is already above its $11.93 target ($12.60).
 
 **Orders placed:** none.
 

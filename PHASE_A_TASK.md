@@ -297,6 +297,27 @@ fact exists, keep `direction: "long"` and lower `conviction` as the
 rubric dictates; the stop-loss and conviction-trim still protect the
 position.
 
+**Time review** (only if `time_review.enabled`): for a held position
+whose holding period's opening buy (the live `order` in
+`trade_log.jsonl` that took it from zero — read it, never write it) was
+at least `time_review.window_trading_days` trading days ago, compute its
+peak gain since entry: the highest daily `high_price` from the opening
+buy's date through the latest completed bar (Step 1's historicals),
+versus the `average_buy_price` from `get_equity_positions`. If that peak
+never reached the first (lowest) `take_profit.tiers` `gain_pct`, the
+position has not done what its entry thesis expected inside the window,
+and holding it needs a fresh reason: the thesis must cite a specific
+company-disclosed fact dated **after** the opening buy that still
+supports holding. Restating the entry catalyst, a still-pending
+catalyst, analyst commentary or price action don't qualify. If no such
+fact exists, `direction` is `"exit_existing"`. Either way, add a
+`"time_review"` field to the thesis line, e.g. `"12 trading days held;
+peak gain +5.5% never reached the +8% first tier; no newer supporting
+fact"` or `"...; supporting fact: <fact> (<date>)"`. This window is
+longer than the early-exit guard's, so the guard never blocks a
+time-review exit. Positions whose peak gain did reach the first tier
+are exempt — the take-profit tiers and the breakeven stop manage them.
+
 **Include `risk_flags`** for every `direction: "long"` candidate — an
 array of zero or more tags from this fixed set, based only on what this
 run's sourced research already found (no extra searches):

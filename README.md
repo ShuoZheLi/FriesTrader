@@ -105,7 +105,12 @@ weekdays; spec `PHASE_A_TASK.md`). Places no orders.
 candidates are bought:
 
 - **Re-verify.** Re-check each proposal against the opening price. Run all
-  sells (stop-loss, take-profit, `exit_existing`) before any buy.
+  sells (stop-loss with its breakeven floor, take-profit, conviction
+  trim, pre-earnings trim, `exit_existing`) before any buy.
+- **Market regime** (`market_regime.py`). When SPY is below its 50-day
+  average or VIX is above 25, new entries are capped at
+  `market_regime.risk_off_max_concurrent_positions` positions and need
+  `high` conviction; held positions are never force-sold by it.
 - **Buy gate** (`entry_gate.py`). The buy is skipped this cycle if the
   price is more than `entry_price_gap.max_pct` above the thesis price,
   more than `entry_extension.max_extension_pct` above its 20-day average,
@@ -115,11 +120,18 @@ candidates are bought:
   then larger percent below the 52-week high.
 - **Size** (`position_sizing.py`). In ranked order, each candidate is
   bought at its conviction-tier size (a fixed percent of the account)
-  until `max_concurrent_positions` or the `min_cash_buffer_pct` floor is
-  reached. A new entry below `position_sizing.min_new_entry_conviction`
+  until the cycle's effective `max_concurrent_positions` or the
+  `min_cash_buffer_pct` floor is reached. A new entry below `position_sizing.min_new_entry_conviction`
   is skipped, so weak theses don't occupy a slot.
 
 Every decision is logged to `trade_log.jsonl`. Some cycles buy nothing.
+
+**Afternoon risk check** (~2:15pm Central weekdays; spec
+`INTRADAY_RISK_TASK.md`). A sell-only second pass: it re-runs the
+stop-loss (including the breakeven stop) and take-profit checks on open
+positions and executes any sell they trigger. Fractional-share positions
+can't rest as broker-side stop or limit orders, so this second daily
+check stands in for them. It never buys.
 
 **Example.** `EXAMPLE` is on your watchlist at $40, a $15B-cap trading
 above its 200-day average, so it passes the universe filters. It is up 16%
@@ -154,13 +166,21 @@ scheduled time.)
     entries-halted decision.
   - `stop_loss.py` — the fixed or volatility-scaled stop_pct (clamped,
     sample-stdev of daily returns), including the trailing-high reference
-    price once a take-profit tier has fired, and the trigger decision.
+    price once a take-profit tier has fired, the breakeven floor (stop
+    raised to average cost once the peak gain since entry reaches
+    `stop_loss.breakeven_trigger_pct`), and the trigger decision.
   - `take_profit.py` — tiered partial-exit firing, cascading quantity
     correctly when a single cycle's gain jumps past more than one
     not-yet-fired tier at once.
   - `conviction_trim.py` — mechanically trims a held position back to
     its conviction-tier target after several consecutive
     below-high-conviction, overweight cycles.
+  - `pre_earnings_trim.py` — sells `pre_earnings_trim.sell_fraction` of a
+    held position the trading day before its earnings report (exempt:
+    high conviction with the breakeven stop armed).
+  - `market_regime.py` — risk-off when SPY is below its 50-day average or
+    VIX is above the threshold (missing data fails safe), returning the
+    cycle's effective position cap and minimum new-entry conviction.
   - `rank_candidates.py` — the ranking above (conviction, `risk_flags`,
     `pct_below_52wk_high`); new entries and top-ups compete on one list.
   - `position_sizing.py` — the sizing above, plus concurrency and
@@ -169,9 +189,9 @@ scheduled time.)
   Each takes plain CLI args, prints one JSON object, and is meant to be
   read from directly rather than re-derived — see `PHASE_B_TASK.md`
   Steps 5 and 7 for the exact call shape of each
-  (`stop_loss.py`/`take_profit.py`/`conviction_trim.py` in Step 5;
-  `entry_gate.py`/`pnl_pct.py`/`rank_candidates.py`/`position_sizing.py`
-  in Step 7).
+  (`stop_loss.py`/`take_profit.py`/`conviction_trim.py`/`pre_earnings_trim.py`
+  in Step 5; `market_regime.py`/`entry_gate.py`/`pnl_pct.py`/
+  `rank_candidates.py`/`position_sizing.py` in Step 7).
   - `replay_dry_run.py` — offline only, not part of either phase: turns a
     dry run's logged would-be buys into a paper portfolio over
     historical daily bars, running the same stop-loss, take-profit,
@@ -294,10 +314,12 @@ This template gets improvements over time.
 
 ## Running it
 
-Two schedules need to fire: Phase A around 4:30pm Central on weekdays
-(hand Claude Code `PHASE_A_TASK.md` to execute), and Phase B around
+Three schedules need to fire: Phase A around 4:30pm Central on weekdays
+(hand Claude Code `PHASE_A_TASK.md` to execute), Phase B around
 8:35am Central on weekdays, 5 minutes after market open (hand it
-`PHASE_B_TASK.md`). Each run is a fresh Claude Code session pointed at
+`PHASE_B_TASK.md`), and the afternoon risk check around 2:15pm Central
+on weekdays (hand it `INTRADAY_RISK_TASK.md`; optional — set
+`intraday_risk_check.enabled` to `false` to make it a no-op). Each run is a fresh Claude Code session pointed at
 this repo — no state needs to persist locally between runs, since the
 repo itself (`risk_rules.json`, `pending_proposals.jsonl`,
 `trade_log.jsonl`) is what's read and written each time.

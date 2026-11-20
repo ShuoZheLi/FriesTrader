@@ -1,48 +1,44 @@
-# 2026-11-19
+# 2026-11-20
 
-Live cycle (Thursday). Mode `live`, strategy version `19210a9`. Three orders were placed and filled: CNC was sold (exit), FROG was trimmed by its first take-profit tier, and HTHT was bought as a new entry. Open positions: 5 of 5.
+Live cycle (Friday). Mode `live`, strategy version `88bd75c` (first cycle under the new rules from PR #3). Two stop-loss sells were placed and filled: SKM was sold in full, and the rest of FROG was sold on its trailing stop. No buys. Open positions: 3 (ROIV, NWL, HTHT).
+
+**Market regime:** risk-off. SPY at $713.58 is 6.3% below its 50-day average ($761.67), and VIX is 28.5 (above 25). New entries are capped at 3 positions and need high conviction.
 
 **Loss-limit check:** clear.
-- Realized P&L is +$0.30 today and +$0.30 over the trailing week, so entries are not halted.
+- Realized P&L is −$1.66 today (−1.7%) and −$1.36 over the trailing week, so entries are not halted.
 - `net_deposits_usd` is $100.00, computed after this cycle's sells from:
-  - total value: $98.67
-  - open-position cost basis: $38.89
-  - unrealized P&L: +$1.52
-  - all-time realized P&L: −$2.85
+  - total value: $95.30
+  - open-position cost basis: $30.00
+  - unrealized P&L: −$0.18
+  - all-time realized P&L: −$4.51
 
-**Held positions** (stop-loss, take-profit and trim checks):
+**Held positions** (stop-loss, take-profit, trim and pre-earnings checks):
+- **SKM:** stop-loss triggered and sold.
+  - It opened down 10% at $28.43, 16.2% below the $33.91 average cost.
+  - The volatility-scaled stop was 6.6%.
+- **FROG:** trailing stop triggered and sold.
+  - Price $104.96 was 13.9% below its $121.85 high since entry, past the 10% cap.
+  - The remaining shares still sold above the $100.74 average cost (+3.0%).
 - **ROIV:** holding.
-  - Price $39.07 vs. $37.64 average cost (+3.8%).
-  - It is at a gain, so no stop was computed. No take-profit tier was reached.
-  - It is 6.2% over its $11.86 target, so there is no trim.
-- **CNC:** sold in full (Phase A's `exit_existing`).
-  - The close of $67.42 broke the ~$68.03 invalidation level after the managed-care Medicare-audit selloff.
-  - Price $66.97 vs. $68.28 average cost (−1.9%). The 10.7% stop did not trigger.
+  - Price $38.90 vs. $37.64 average cost (+3.3%).
+  - The breakeven stop is armed (peak gain +12.2%), so it sells if the price falls back to $37.64.
+  - No take-profit tier was reached, and there is no trim.
 - **NWL:** holding.
-  - Price $5.56 vs. $5.82 average cost (−4.5%).
-  - The volatility-scaled stop is 12.5%, so it did not trigger.
-  - It is near its $5.93 target, so there is no trim.
-- **FROG:** the first take-profit tier fired.
-  - Price $121.53 vs. $100.71 average cost (+20.7%).
-  - The +15% tier sold 25% of the position (0.029218 shares). The +30% and +50% tiers remain.
-  - No stop was computed (at a gain), and there is no trim.
-- **SKM:** holding.
-  - Price $32.73 vs. $33.91 average cost (−3.5%).
-  - The volatility-scaled stop is 7.2%, so it did not trigger.
-  - It is at its target, so there is no trim.
+  - Price $5.40 vs. $5.82 average cost (−7.2%).
+  - The volatility-scaled stop is 9.8%, so it did not trigger.
+- **HTHT:** holding.
+  - Price $51.42 vs. $52.06 average cost (−1.2%).
+  - The volatility-scaled stop is 5.7%, so it did not trigger.
+- **Pre-earnings trim:** none due. The next reports are ROIV and NWL on 2/5 and HTHT on 3/17.
 
-**Candidates** (from Wednesday afternoon's Phase A; CNC's exit freed 1 slot):
-- **HTHT** (new, medium): approved and sized at $11.84. It passed the buy gate: ask $52.16 vs. $52.44 thesis price, and 5.7% above its 20-day average.
-- **WWW** (new, medium): skipped by the buy gate. It is 15.5% above its 20-day average; the cap is 10%.
-- **SLS** (new, low, dilution flag): skipped by the buy gate. It is 60.7% above its 20-day average.
-- **FROG** (held, top-up): not eligible, because a take-profit tier fired this cycle.
+**Candidates** (from Thursday afternoon's Phase A):
+- **P** (new, medium) and **SLS** (new, low): no open slots (3 of 3 risk-off max held). Skipped without a price re-check.
+- **FROG, SKM** (held, top-up): not eligible, because a stop-loss fired this cycle.
 - **NWL** (held, top-up): skipped by the wash-sale guard (loss-realizing trim on 11-09).
-- **ROIV** (held, top-up): passed the gate. No top-up: it is already above its $11.84 target.
-- **SKM** (held, top-up): passed the gate. No top-up: $0.37 of headroom is below the $5 minimum.
+- **ROIV, HTHT** (held, top-up): passed the gate. No top-up: both are already above target.
 
 **Orders placed** (all live and filled):
-- **CNC:** sell 0.178098 shares at $66.60 (about $11.86, realized −$0.30).
-- **FROG:** sell 0.029218 shares at $121.28 (about $3.54, realized +$0.60).
-- **HTHT:** buy $11.84 → 0.227429 shares at $52.06.
+- **SKM:** sell 0.350929 shares at $28.41 (about $9.97, realized −$1.93).
+- **FROG:** sell 0.087652 shares at $103.78 (about $9.10, realized +$0.27).
 
-Cash: about $46.42. Open positions: 5 of 5 (ROIV, NWL, FROG, SKM, HTHT).
+Cash: $65.49. Open positions: 3 (ROIV, NWL, HTHT).

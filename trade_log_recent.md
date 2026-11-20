@@ -42,3 +42,13 @@ Live cycle (Friday). Mode `live`, strategy version `88bd75c` (first cycle under 
 - **FROG:** sell 0.087652 shares at $103.78 (about $9.10, realized +$0.27).
 
 Cash: $65.49. Open positions: 3 (ROIV, NWL, HTHT).
+
+## Afternoon risk check (14:15)
+
+Sell-only pass, mode `live`, strategy version `ee97e73`. 3 positions checked, nothing triggered, no orders.
+
+- **ROIV** $38.94 vs. avg cost $37.64 (+3.5%). Breakeven stop armed (peak +12.2%, stop at $37.64), not hit. No take-profit tier reached (first tier +8%).
+- **NWL** $5.345 vs. $5.82 (−8.2%). Volatility stop 9.75% (≈$5.25), not hit. Breakeven not armed (peak +5.5%).
+- **HTHT** $51.435 vs. $52.06 (−1.2%). Volatility stop 5.75% (≈$49.07), not hit. Breakeven not armed (peak +1.3%).
+
+Orders placed: none.

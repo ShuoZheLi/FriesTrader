@@ -1,6 +1,10 @@
 {
   "_comment": "These are hard numeric limits. Claude's reasoning/thesis step may NEVER override these values. Any proposed trade that violates a rule here must be rejected before it reaches review_equity_order, with no exceptions regardless of how strong the thesis sounds.",
 
+  "_changelog": [
+    {"date": "2026-11-20", "change": "Adopted at the account owner's request after the one-month live review: (1) take-profit tiers 15/30/50% (25% each) -> 8/15/30% (one third each) plus a breakeven stop once peak gain since entry reaches 8%; (2) market_regime filter (SPY below its 50-day average or VIX above 25 -> at most 3 positions and high-conviction-only new entries); (3) an afternoon intraday stop-loss/take-profit check (INTRADAY_RISK_TASK.md); (4) pre_earnings_trim (sell half the trading day before a report); (5) stop_loss.volatility_stdev_multiplier 2.5 -> 2.0, stop_loss.max_stop_pct 0.15 -> 0.10, entry_extension.max_extension_pct 0.10 -> 0.08; plus time_review for held positions that never reach the first take-profit tier within 10 trading days."}
+  ],
+
   "account_number": "880485792",
 
   "execution": {
@@ -58,19 +62,22 @@
     "mode": "volatility_scaled",
     "hard_stop_pct": 0.07,
     "volatility_lookback_trading_days": 20,
-    "volatility_stdev_multiplier": 2.5,
+    "volatility_stdev_multiplier": 2.0,
     "min_stop_pct": 0.05,
-    "max_stop_pct": 0.15,
+    "max_stop_pct": 0.10,
     "fallback_stop_pct": 0.07,
+    "breakeven_trigger_pct": 0.08,
+    "breakeven_note": "Once a position's peak gain since its holding period's entry (highest daily high since entry, or the fresh price if higher, versus average cost) reaches breakeven_trigger_pct, its stop is raised to average cost: it is sold in full as soon as the price is at or below average cost. A floor on top of the regular stop, never a loosening of it. Set to null to disable. See scripts/stop_loss.py.",
     "note": "mode is 'fixed' or 'volatility_scaled' -- toggle only. 'fixed' uses the flat hard_stop_pct for every symbol. 'volatility_scaled': stop_pct per symbol = clamp(volatility_stdev_multiplier * stdev of daily close-to-close returns over volatility_lookback_trading_days, min_stop_pct, max_stop_pct), recomputed fresh from get_equity_historicals each cycle; falls back to fallback_stop_pct if historicals are unavailable or the symbol has fewer than 10 daily bars. Every open position must have this stop checked on every cycle, independent of any new thesis about the stock. A good new narrative does not cancel a stop-loss."
   },
 
   "take_profit": {
     "tiers": [
-      {"gain_pct": 0.15, "sell_fraction_of_position": 0.25},
-      {"gain_pct": 0.30, "sell_fraction_of_position": 0.25},
-      {"gain_pct": 0.50, "sell_fraction_of_position": 0.25}
+      {"gain_pct": 0.08, "sell_fraction_of_position": 0.333333},
+      {"gain_pct": 0.15, "sell_fraction_of_position": 0.333333},
+      {"gain_pct": 0.30, "sell_fraction_of_position": 0.333333}
     ],
+    "tiers_note": "2026-11-20: lowered from 15/30/50% (25% each). In the first live month every losing exit had first been in profit (peak gains +1.8% to +14.4%, two of them at about +14%) and the average buy was +2.7% after 5 trading days but -1.0% after 10, so the first tier now sits at +8%. A tier at or below the highest tier already fired this holding period counts as fired (scripts/take_profit.py), so a schedule change never fires a lower tier after the fact.",
     "note": "Tiered partial take-profit, not a single full-exit threshold. Every open position must have this checked on every cycle, independent of any new thesis about the stock — this account is short-term oriented, not buy-and-hold. A good new narrative does not cancel a take-profit tier any more than it cancels a stop-loss. Each tier fires once (per holding period, i.e. since the position last closed to zero) when gain first reaches it, selling sell_fraction_of_position of the position's quantity at that moment — see PHASE_B_TASK.md Step 5 for the exact mechanics. After all three tiers have fired, the remaining quantity is held long indefinitely; only the stop-loss still applies to it. See sell_reentry_lock for re-entry lock behavior."
   },
 
@@ -106,7 +113,7 @@
   "entry_extension": {
     "enabled": true,
     "lookback_trading_days": 20,
-    "max_extension_pct": 0.10,
+    "max_extension_pct": 0.08,
     "note": "Hard ceiling on buys -- skips the buy this cycle if current_price is more than max_extension_pct above its own lookback_trading_days-day moving average, same principle as entry_price_gap. Never applies to sells."
   },
 
@@ -114,6 +121,35 @@
     "enabled": true,
     "blackout_trading_days": 5,
     "note": "Skips new entries and top-ups when the symbol's next earnings report is within blackout_trading_days trading days (0 = today), so fresh money isn't put on a binary event. Never applies to sells."
+  },
+
+  "market_regime": {
+    "enabled": true,
+    "benchmark_symbol": "SPY",
+    "ma_lookback_trading_days": 50,
+    "volatility_index_symbol": "VIX",
+    "vix_threshold": 25,
+    "risk_off_max_concurrent_positions": 3,
+    "risk_off_min_new_entry_conviction": "high",
+    "note": "Risk-off when the benchmark's fresh price is below the simple average of its last ma_lookback_trading_days daily closes OR the volatility index is above vix_threshold; missing data fails safe to risk-off. Risk-off caps new-entry capacity at risk_off_max_concurrent_positions and raises min_new_entry_conviction to risk_off_min_new_entry_conviction for that cycle. It never forces a sell of a position already held, and top-ups are unaffected. Checked in PHASE_B_TASK.md Step 7 via scripts/market_regime.py. Set enabled to false to turn it off."
+  },
+
+  "pre_earnings_trim": {
+    "enabled": true,
+    "trading_days_before": 1,
+    "sell_fraction": 0.5,
+    "note": "Sells sell_fraction of a held position in the last trading_days_before trading days before its next earnings report (a report today counts only if it is after the close or its timing is unknown). Exempt: conviction 'high' AND the breakeven stop already armed. Fires once per report. A sell, so never blocked by a loss-limit halt. Checked in PHASE_B_TASK.md Step 5 via scripts/pre_earnings_trim.py."
+  },
+
+  "time_review": {
+    "enabled": true,
+    "window_trading_days": 10,
+    "note": "Phase A rule for held positions: once a holding period's opening buy is at least window_trading_days trading days old and the position's peak gain since entry never reached the first take-profit tier, the thesis must cite a specific company-disclosed fact dated after the opening buy that still supports holding; otherwise its direction is exit_existing. See PHASE_A_TASK.md Step 3."
+  },
+
+  "intraday_risk_check": {
+    "enabled": true,
+    "note": "A second, afternoon run on weekdays (INTRADAY_RISK_TASK.md, about 2:15pm Central) that re-runs only the stop-loss (including the breakeven stop) and take-profit checks on open positions and executes any sell they trigger, through the same live-order gate. It never buys and never runs conviction-trim, pre-earnings-trim or exit_existing. Positions are fractional shares, which Robinhood only accepts as market orders, so broker-side stop or limit orders cannot carry these exits; a second daily check is the substitute."
   },
 
   "early_exit_guard": {

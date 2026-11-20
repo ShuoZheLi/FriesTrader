@@ -7,6 +7,14 @@ for one position, per risk_rules.json/PHASE_B_TASK.md Step 5.
 Sample standard deviation (ddof=1) is used for the volatility_scaled stdev,
 the standard convention for a sample of daily returns (matches Excel
 STDEV/pandas .std() default).
+
+Breakeven stop (optional, --breakeven-trigger-pct): once the position's
+peak gain since entry (the highest daily high since the holding period's
+entry date, or the current price if higher, versus average cost) has
+reached the trigger, the stop is raised to average cost -- the position
+is sold in full as soon as the price is at or below average cost, so a
+position that has been meaningfully in profit cannot turn into a loss.
+This is a floor on top of the regular stop, never a loosening of it.
 """
 import argparse
 import json
@@ -51,6 +59,12 @@ def main():
                          "yesterday. Required when --take-profit-tier-fired is set.")
     p.add_argument("--trailing-high-since", default=None,
                     help="entry date of the current holding period, passed through for logging")
+
+    p.add_argument("--breakeven-trigger-pct", type=float, default=None,
+                    help="risk_rules.json stop_loss.breakeven_trigger_pct; omit to disable the breakeven stop")
+    p.add_argument("--peak-price", type=float, default=None,
+                    help="highest daily high_price since the holding period's entry date through "
+                         "yesterday (omit if there is no completed bar yet, e.g. opened today)")
 
     args = p.parse_args()
 
@@ -112,8 +126,26 @@ def main():
             result["stdev_20d"] = round(stdev, 6)
             result["stop_pct_used"] = round(stop_pct, 6)
 
-    triggered = stop_pct is not None and drawdown_pct >= stop_pct
+    volatility_triggered = stop_pct is not None and drawdown_pct >= stop_pct
+
+    breakeven_triggered = False
+    if args.breakeven_trigger_pct is not None:
+        if args.average_cost <= 0:
+            print(json.dumps({"error": "average_cost must be positive"}), file=sys.stderr)
+            sys.exit(1)
+        peak_price = max([args.current_price] + ([args.peak_price] if args.peak_price is not None else []))
+        peak_gain_pct = (peak_price - args.average_cost) / args.average_cost
+        armed = peak_gain_pct >= args.breakeven_trigger_pct
+        result["peak_gain_pct"] = round(peak_gain_pct, 6)
+        result["breakeven_armed"] = armed
+        if armed:
+            result["breakeven_stop_price"] = round(args.average_cost, 6)
+            breakeven_triggered = args.current_price <= args.average_cost
+
+    triggered = volatility_triggered or breakeven_triggered
     result["triggered"] = triggered
+    if triggered:
+        result["trigger_reason"] = "volatility_stop" if volatility_triggered else "breakeven_stop"
     result["action"] = "sell_full_position" if triggered else "hold_monitor"
 
     print(json.dumps(result))

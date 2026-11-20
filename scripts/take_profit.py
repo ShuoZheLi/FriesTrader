@@ -8,6 +8,12 @@ Tiers are evaluated in ascending gain_pct order; a tier already fired
 this holding period is skipped, and a tier whose gain_pct is now met is
 fired against the position's quantity as it stands after any earlier
 tier fired in this same cycle has already reduced it.
+
+Tiers fire in ascending order, so any tier whose gain_pct is at or below
+the highest gain_pct already fired this holding period also counts as
+fired. This keeps a lower tier from firing after the fact when the tier
+schedule changes mid-holding-period (e.g. a 0.08 tier added after a
+0.15 tier already fired).
 """
 import argparse
 import json
@@ -37,7 +43,7 @@ def main():
                     help="position quantity as it stands right now, before this cycle's tiers are evaluated")
     p.add_argument("--tiers", type=parse_tiers, required=True,
                     help="risk_rules.json take_profit.tiers as gain_pct:sell_fraction pairs, "
-                         "e.g. '0.15:0.25,0.30:0.25,0.50:0.25'")
+                         "e.g. '0.08:0.333333,0.15:0.333333,0.30:0.333333'")
     p.add_argument("--already-fired", type=parse_float_set, default=set(),
                     help="comma-separated gain_pct values already fired this holding period "
                          "(from a trade_log.jsonl lookup), e.g. '0.15'")
@@ -53,8 +59,10 @@ def main():
     fired_this_cycle = []
     running_qty = args.quantity
 
+    highest_fired = max(args.already_fired) if args.already_fired else None
     for tier in args.tiers:
-        already_fired = any(abs(tier["gain_pct"] - f) < 1e-9 for f in args.already_fired)
+        already_fired = any(abs(tier["gain_pct"] - f) < 1e-9 for f in args.already_fired) or (
+            highest_fired is not None and tier["gain_pct"] <= highest_fired + 1e-9)
         if already_fired:
             tiers_status.append({"gain_pct": tier["gain_pct"], "fired": True})
             continue

@@ -23,3 +23,12 @@ Live cycle (Monday). Mode `live`, strategy version `8df006c`. One sell: NWL was 
 - **NWL:** sell 1.034057 shares at $5.36 (about $5.54, realized −$0.48). No wash-sale flag: the position is fully closed.
 
 Cash: $71.03. Open positions: 2 (ROIV, HTHT).
+
+## Afternoon risk check (14:14)
+
+Sell-only pass, mode `live`, strategy version `a0e1b40`. 2 positions checked, nothing triggered, no orders.
+
+- **ROIV:** $39.72 vs. $37.64 average cost (+5.5%). Breakeven stop armed (peak +12.2%, stop at $37.64), not hit. No take-profit tier reached (first tier +8%).
+- **HTHT:** $51.78 vs. $52.06 (−0.5%). Volatility stop 5.68% (≈$49.10), not hit. Breakeven not armed (peak +1.3%).
+
+Orders placed: none.

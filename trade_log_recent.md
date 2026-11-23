@@ -1,54 +1,25 @@
-# 2026-11-20
+# 2026-11-23
 
-Live cycle (Friday). Mode `live`, strategy version `88bd75c` (first cycle under the new rules from PR #3). Two stop-loss sells were placed and filled: SKM was sold in full, and the rest of FROG was sold on its trailing stop. No buys. Open positions: 3 (ROIV, NWL, HTHT).
+Live cycle (Monday). Mode `live`, strategy version `8df006c`. One sell: NWL was exited in full on Phase A's time-review call. No buys. Open positions: 2 (ROIV, HTHT).
 
-**Market regime:** risk-off. SPY at $713.58 is 6.3% below its 50-day average ($761.67), and VIX is 28.5 (above 25). New entries are capped at 3 positions and need high conviction.
+**Market regime: risk-off.** SPY $718.61 is below its 50-day average ($760.18), and VIX is 28.94 (above 25). New entries are limited to 3 positions and high conviction only.
 
-**Loss-limit check:** clear.
-- Realized P&L is −$1.66 today (−1.7%) and −$1.36 over the trailing week, so entries are not halted.
-- `net_deposits_usd` is $100.00, computed after this cycle's sells from:
-  - total value: $95.30
-  - open-position cost basis: $30.00
-  - unrealized P&L: −$0.18
-  - all-time realized P&L: −$4.51
+**Loss limits:** not breached. Today's realized P&L is −$0.48 (−0.48%), and the trailing week's is −$1.84 (−1.84%). Net deposits computed this cycle: $100.00 (total value $95.63, open-position cost basis $23.98, all-time realized −$4.99).
 
-**Held positions** (stop-loss, take-profit, trim and pre-earnings checks):
-- **SKM:** stop-loss triggered and sold.
-  - It opened down 10% at $28.43, 16.2% below the $33.91 average cost.
-  - The volatility-scaled stop was 6.6%.
-- **FROG:** trailing stop triggered and sold.
-  - Price $104.96 was 13.9% below its $121.85 high since entry, past the 10% cap.
-  - The remaining shares still sold above the $100.74 average cost (+3.0%).
-- **ROIV:** holding.
-  - Price $38.90 vs. $37.64 average cost (+3.3%).
-  - The breakeven stop is armed (peak gain +12.2%), so it sells if the price falls back to $37.64.
-  - No take-profit tier was reached, and there is no trim.
-- **NWL:** holding.
-  - Price $5.40 vs. $5.82 average cost (−7.2%).
-  - The volatility-scaled stop is 9.8%, so it did not trigger.
-- **HTHT:** holding.
-  - Price $51.42 vs. $52.06 average cost (−1.2%).
-  - The volatility-scaled stop is 5.7%, so it did not trigger.
-- **Pre-earnings trim:** none due. The next reports are ROIV and NWL on 2/5 and HTHT on 3/17.
+**Held positions**
+- **ROIV:** $39.65 vs. $37.64 average cost (+5.3%). Breakeven stop armed (peak +12.2%, stop at $37.64), not hit. No take-profit tier yet (first tier +8%). Holding.
+- **NWL:** $5.30 vs. $5.82 (−8.9%). Volatility stop 9.79%, not hit. Exited anyway as `exit_existing`: held 13 trading days, peak gain +5.5% never reached the +8% first tier, and no newer supporting fact (early-exit guard not applicable).
+- **HTHT:** $51.91 vs. $52.06 (−0.3%). Volatility stop 5.68%, not hit. Breakeven not armed (peak +1.3%). Holding.
+- No conviction trim triggered (ROIV 11.5% and HTHT 3.0% over target, below the 25% trigger). No pre-earnings trim: next reports are Feb 5 (ROIV) and Mar 17 (HTHT).
 
-**Candidates** (from Thursday afternoon's Phase A):
-- **P** (new, medium) and **SLS** (new, low): no open slots (3 of 3 risk-off max held). Skipped without a price re-check.
-- **FROG, SKM** (held, top-up): not eligible, because a stop-loss fired this cycle.
-- **NWL** (held, top-up): skipped by the wash-sale guard (loss-realizing trim on 11-09).
-- **ROIV, HTHT** (held, top-up): passed the gate. No top-up: both are already above target.
+**Candidates**
+- Weekend news check (Monday): nothing material found for ROIV, HTHT, BJ or APG.
+- **APG** (new, medium): rejected. The ask of $43.76 gapped 3.92% above the $42.11 thesis price (3% max).
+- **BJ** (new, low): rejected. Conviction 'low' is below the 'high' required for new entries while risk-off.
+- **ROIV** (top-up, medium): no top-up. $12.79 is already above its $11.48 target.
+- **HTHT** (top-up, medium): no top-up. $11.82 is already above its $11.48 target.
 
-**Orders placed** (all live and filled):
-- **SKM:** sell 0.350929 shares at $28.41 (about $9.97, realized −$1.93).
-- **FROG:** sell 0.087652 shares at $103.78 (about $9.10, realized +$0.27).
+**Orders placed** (live, filled):
+- **NWL:** sell 1.034057 shares at $5.36 (about $5.54, realized −$0.48). No wash-sale flag: the position is fully closed.
 
-Cash: $65.49. Open positions: 3 (ROIV, NWL, HTHT).
-
-## Afternoon risk check (14:15)
-
-Sell-only pass, mode `live`, strategy version `ee97e73`. 3 positions checked, nothing triggered, no orders.
-
-- **ROIV** $38.94 vs. avg cost $37.64 (+3.5%). Breakeven stop armed (peak +12.2%, stop at $37.64), not hit. No take-profit tier reached (first tier +8%).
-- **NWL** $5.345 vs. $5.82 (−8.2%). Volatility stop 9.75% (≈$5.25), not hit. Breakeven not armed (peak +5.5%).
-- **HTHT** $51.435 vs. $52.06 (−1.2%). Volatility stop 5.75% (≈$49.07), not hit. Breakeven not armed (peak +1.3%).
-
-Orders placed: none.
+Cash: $71.03. Open positions: 2 (ROIV, HTHT).

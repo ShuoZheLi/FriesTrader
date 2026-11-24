@@ -21,3 +21,12 @@ Live cycle (Tuesday). Mode `live`, strategy version `ad5b862`. One sell: ROIV hi
 - **ROIV:** sell 0.10751 shares at $42.13 (about $4.53, realized +$0.48).
 
 Cash: $75.56. Open positions: 2 (ROIV 0.21502 shares, HTHT 0.227429 shares).
+
+## Afternoon risk check (14:13)
+
+Sell-only pass, mode `live`, strategy version `dae2881`. 2 positions checked, nothing triggered, no orders.
+
+- **ROIV:** $42.41 vs. $37.62 average cost (+12.7%), at a new high above the $42.24 prior peak. The stop now trails the high since entry (tier +8% fired this morning), with the breakeven floor at $37.62 still armed. Next tier is +15%.
+- **HTHT:** $52.03 vs. $52.06 (−0.1%). Volatility stop 5.60% (≈$49.15), not hit. Breakeven not armed (peak +1.3%).
+
+Orders placed: none.

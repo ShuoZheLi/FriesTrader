@@ -1,34 +1,23 @@
-# 2026-11-23
+# 2026-11-24
 
-Live cycle (Monday). Mode `live`, strategy version `8df006c`. One sell: NWL was exited in full on Phase A's time-review call. No buys. Open positions: 2 (ROIV, HTHT).
+Live cycle (Tuesday). Mode `live`, strategy version `ad5b862`. One sell: ROIV hit its first take-profit tier (+8%), so a third of the position was sold. No buys. Open positions: 2 (ROIV, HTHT).
 
-**Market regime: risk-off.** SPY $718.61 is below its 50-day average ($760.18), and VIX is 28.94 (above 25). New entries are limited to 3 positions and high conviction only.
+**Market regime: risk-off.** SPY $714.63 is below its 50-day average ($759.41), and VIX is 29.32 (above 25). New entries are limited to 3 positions and high conviction only.
 
-**Loss limits:** not breached. Today's realized P&L is −$0.48 (−0.48%), and the trailing week's is −$1.84 (−1.84%). Net deposits computed this cycle: $100.00 (total value $95.63, open-position cost basis $23.98, all-time realized −$4.99).
+**Loss limits:** not breached. Today's realized P&L is +$0.48 (+0.48%), and the trailing week's is −$1.36 (−1.36%). Net deposits computed this cycle: $100.00 (total value $96.45, open-position cost basis $19.93, all-time realized −$4.51).
 
 **Held positions**
-- **ROIV:** $39.65 vs. $37.64 average cost (+5.3%). Breakeven stop armed (peak +12.2%, stop at $37.64), not hit. No take-profit tier yet (first tier +8%). Holding.
-- **NWL:** $5.30 vs. $5.82 (−8.9%). Volatility stop 9.79%, not hit. Exited anyway as `exit_existing`: held 13 trading days, peak gain +5.5% never reached the +8% first tier, and no newer supporting fact (early-exit guard not applicable).
-- **HTHT:** $51.91 vs. $52.06 (−0.3%). Volatility stop 5.68%, not hit. Breakeven not armed (peak +1.3%). Holding.
-- No conviction trim triggered (ROIV 11.5% and HTHT 3.0% over target, below the 25% trigger). No pre-earnings trim: next reports are Feb 5 (ROIV) and Mar 17 (HTHT).
+- **ROIV:** $41.98 vs. $37.64 average cost (+11.5%). Take-profit tier +8% fired: sold 0.10751 shares (1/3). Tiers +15% and +30% are still pending. The breakeven stop stays armed (peak +12.2%), and with a tier now fired the stop switches to the trailing high from the next check.
+- **HTHT:** $51.98 vs. $52.06 (−0.2%). Volatility stop 5.60%, not hit. Breakeven not armed (peak +1.3%). Holding.
+- No conviction trim triggered (ROIV 17.0% and HTHT 2.2% over target, below the 25% trigger). No pre-earnings trim: next reports are Feb 5 (ROIV) and Mar 17 (HTHT).
 
 **Candidates**
-- Weekend news check (Monday): nothing material found for ROIV, HTHT, BJ or APG.
-- **APG** (new, medium): rejected. The ask of $43.76 gapped 3.92% above the $42.11 thesis price (3% max).
+- **ALH** (new, medium): rejected. The ask of $25.69 is 10.3% above its 20-day average ($23.29), above the 8% extension limit.
 - **BJ** (new, low): rejected. Conviction 'low' is below the 'high' required for new entries while risk-off.
-- **ROIV** (top-up, medium): no top-up. $12.79 is already above its $11.48 target.
-- **HTHT** (top-up, medium): no top-up. $11.82 is already above its $11.48 target.
+- **ROIV** (top-up): not eligible. A take-profit tier fired this cycle.
+- **HTHT** (top-up, medium): no top-up. $11.81 is already above its $11.57 target.
 
 **Orders placed** (live, filled):
-- **NWL:** sell 1.034057 shares at $5.36 (about $5.54, realized −$0.48). No wash-sale flag: the position is fully closed.
+- **ROIV:** sell 0.10751 shares at $42.13 (about $4.53, realized +$0.48).
 
-Cash: $71.03. Open positions: 2 (ROIV, HTHT).
-
-## Afternoon risk check (14:14)
-
-Sell-only pass, mode `live`, strategy version `a0e1b40`. 2 positions checked, nothing triggered, no orders.
-
-- **ROIV:** $39.72 vs. $37.64 average cost (+5.5%). Breakeven stop armed (peak +12.2%, stop at $37.64), not hit. No take-profit tier reached (first tier +8%).
-- **HTHT:** $51.78 vs. $52.06 (−0.5%). Volatility stop 5.68% (≈$49.10), not hit. Breakeven not armed (peak +1.3%).
-
-Orders placed: none.
+Cash: $75.56. Open positions: 2 (ROIV 0.21502 shares, HTHT 0.227429 shares).

@@ -24,3 +24,12 @@ Live cycle (Wednesday). Mode `live`, strategy version `242c9a9`. No sells, no bu
 **Orders placed:** none.
 
 Cash: $75.56. Open positions: 2 (ROIV 0.21502 shares, HTHT 0.227429 shares).
+
+## Afternoon risk check (14:13)
+
+Sell-only pass, mode `live`, strategy version `d29f4c4`. 2 positions checked, nothing triggered, no orders.
+
+- **ROIV:** $42.14 vs. $37.62 average cost (+12.0%). The trailing stop sits 1.3% below the $42.70 high against a 6.66% stop, not hit. Breakeven floor $37.62. Next tier is +15%.
+- **HTHT:** $51.78 vs. $52.06 (−0.5%). Volatility stop 5.29% (≈$49.30), not hit. Breakeven not armed (peak +1.3%).
+
+Orders placed: none.

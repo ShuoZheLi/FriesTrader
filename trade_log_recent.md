@@ -9,3 +9,12 @@ Market holiday (Thursday, Thanksgiving): NYSE closed. Mode `live`, strategy vers
 - **HTHT:** $51.715 vs. $52.06 (−0.7%). Volatility stop 5.10%, not hit. Breakeven not armed.
 
 Cash: $75.56. Open positions: 2.
+
+## Afternoon risk check (14:14)
+
+Market holiday (Thanksgiving). Sell-only pass on the 2026-11-25 last trade, mode `live`, strategy version `5acd21f`. 2 positions checked, nothing triggered, no orders.
+
+- **ROIV:** $42.18 vs. $37.62 (+12.1%). The trailing stop is 1.2% below the $42.70 high against a 6.68% stop, not hit. Breakeven floor $37.62.
+- **HTHT:** $51.715 vs. $52.06 (−0.7%). Volatility stop 5.10%, not hit.
+
+Orders placed: none.

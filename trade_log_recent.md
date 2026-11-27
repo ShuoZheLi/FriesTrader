@@ -22,3 +22,12 @@ Live cycle (Friday, half-day session closing at 12:00 CT). Mode `live`, strategy
 **Orders placed:** none.
 
 Cash: $75.56. Open positions: 2 (ROIV 0.21502 shares, HTHT 0.227429 shares).
+
+## Afternoon risk check (14:14)
+
+Half-day session (closed 12:00 CT). Sell-only pass on the last regular-session trade, mode `live`, strategy version `98762ec`. 2 positions checked, nothing triggered, no orders.
+
+- **ROIV:** $43.23 vs. $37.62 (+14.9%), a new high since entry, so the trailing stop isn't computed (at the high). Breakeven floor $37.62. Tier +8% already fired; the +15% tier didn't fire (14.9%).
+- **HTHT:** $52.65 vs. $52.06 (+1.1%). At a gain, so no stop is computed.
+
+Orders placed: none.
